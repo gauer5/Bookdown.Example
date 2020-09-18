@@ -1,8 +1,8 @@
-book_filename: "BookdownExample"
+book_filename: "Bookdown.Example"
 output_dir: docs
 delete_merged_file: true
 new_session: yes
-edit: https://github.com/gauer5/Bookdown.Example/edit/master/%s
-view: https://github.com/gauer5/Bookdown.Example/blob/master/%s
-history: https://github.com/gauer5/Bookdown.Example/commits/master/%s
+edit: https://github.com/gauer5/bookdown.example/edit/master/%s
+view: https://github.com/gauer5/bookdown.example/blob/master/%s
+history: https://github.com/gauer5/bookdown.example/commits/master/%s
 clean: [docs/*.md]
