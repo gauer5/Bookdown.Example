@@ -1,0 +1,235 @@
+# Regression Output Table Examples
+
+
+This RMD file was one of the examples you worked through in 380. I'm including it in this example for a few reasons. First, you can see how RMD files that you used before as standalone RMD files to create standalone HTML output can be combined in a book using bookdown. Second, this file loads data using `read.csv("data/ceo.csv")`, serving as an example of how you will store all data in a "data" folder put in the main project folder. Third, this file provides examples of showing regression output side by side. 
+
+
+
+Note: Generally it's a good idea to load your packages in a code chunk at the top rather than mixed in with the rest of the document. However, for this example I am going to load the packages  in the same code chunk where I use them so that you can see exactly what package is needed for specific functions.
+
+
+```{r setup,include=FALSE,message=FALSE,warning=FALSE}
+##library(stargazer)
+##library(knitr)
+##library(broom)
+##library(multcomp)
+```
+
+The dataset `ceo.csv` has the following variables:
+  
+  Variable | Description
+----------- | -----------
+`salary` | 1990 compensation in dollars ($)
+`age` | age of CEO in years
+`comten` | years CEO with company
+`ceoten` | years as ceo with company
+`sales` | 1990 firm sales in $millions
+`profits` | 1990 profits in $millions
+`mktval` | 1990 market value in $millions
+
+## Summary Statistics
+The `stargazer` package provides an easy way to display summary statistics. You need the `result='asis'` codechunk option so that it displays the html table in the knit output file. The `warning=FALSE` and `message=FALSE` keeps it from displaying some of the messages it displays by default. One limitation of the table output is that it doesn't leave much space horizontally. This can be controlled by HTML options for cell padding in tables. 
+
+
+```{r,warning=FALSE,message=FALSE,results="asis"}
+library(stargazer)
+mydata <- read.csv("data/ceo.csv")
+stargazer(mydata, type = "html",summary.stat = c("n","mean","sd", "min", "median", "max"))
+```
+
+
+
+## Model comparisons
+
+Consider four models:
+
+```{r,echo=TRUE}
+model1 <- lm(salary~sales+mktval+profits,data=mydata)
+model2 <- lm(salary~sales+mktval+profits+age,data=mydata)
+model3 <- lm(salary~sales+mktval+profits+ceoten,data=mydata)
+model4 <- lm(salary~sales+mktval+profits+ceoten+age,data=mydata)
+```
+
+
+
+One package that allows you to report the results for all four models is the `stargazer` package. This produces a table similar to the `esttab` output in Stata. Remember that each column is a separate model and if a variable does not have a coefficient displayed in a column, that means it was not included as an explanatory variable in that model.
+
+```{r,message=FALSE,warning=FALSE,results='asis'}
+stargazer(model1, model2, model3, model4, type = "html", report=('vc*p'))
+```
+
+
+### Adjusted R-Squared
+
+Recall the definition of $R^2$:
+$$
+R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST}
+$$
+
+The denominator measures the total variation in the $y$ variable: $SST = (n-1)Var(y)$. Thus, it has nothing to do with the explanatory variables. Adding additional $x$ variables does not affect $SST$. Adding an additional $x$ variable cannot decrease how much of the variation in $y$ explained by the model, so $SSE$ will not decrease. Usually it increases at least a little bit. Thus, adding an additional $x$ variable cannot decrease $R^2$, and it usually increases it at least a little bit. This means that $R^2$ increasing is a not a good justification for adding an additional $x$ variable to the model.
+
+Adjusted $R^2$, often denoted $\bar{R}^2$, penalizes you for adding an additional $x$ variable. Adjusted $R^2$ only increases if the new variable has a sufficiently significant effect on $y$. Adjusted $R^2$ is defined as
+
+$$
+\bar{R}^2 = 1 - \frac{\left(\frac{SSR}{n-k-1}\right)}{\left(\frac{SST}{n-1}\right)}
+$$
+
+Look at the models above. All four models include measures of the company, including sales, market value, and profits. Models 2-4 add variables measuring characteristics of the CEO. Compare models 1 and 2. Adding the CEOs age increases $R^2$ but adjusted $R^2$ does not increase, indicating that adding age does not improve the model. Comparing models 1 and 3, both $R^2$ and adjusted $R^2$ increase when adding the CEO's tenure, indicating this variable does improve the model. Comparing models 3 and 4, we again see that adding the CEO's age does not improve the model; $R^2$ increases slightly but adjusted $R^2$ goes down.
+
+
+## Test Linear Combinations of Parameters
+
+Consider again Model 3. I'll display the estimates again here to demonstrate using the `kable()` from `knitr` and `broom`)
+
+
+```{r}
+library(knitr)
+library(broom)
+model3 <- lm(salary~sales+mktval+profits+ceoten,data=mydata)
+kable(tidy(model3),digits = 2)
+```
+
+
+It looks like the coefficient on profits (`r coef(model3)["profits"]`) is larger than the coefficient on sales, but is this difference statistically significant? The test statistic is
+
+
+$$
+t=\frac{\left(\hat{\beta}_{profit}-\hat{\beta}_{sales}\right)-0}{se\left(\hat{\beta}_{profit}-\hat{\beta}_{sales}\right)}
+$$
+
+In R, this test can be implemented using the `glht()` function from the `multcomp` package:
+
+```{r,message=FALSE,warning=FALSE}
+library(multcomp)
+##We need to know the "names" so we can reference them
+names(coef(model3))
+testOfDif <- glht(model3, linfct = c("profits - sales = 0"))
+summary(testOfDif)
+confint(testOfDif)
+```
+
+
+What about `ceoten` compared to `sales`?
+
+
+```{r,message=FALSE,warning=FALSE}
+testOfDif2 <- glht(model3, linfct = c("ceoten - sales = 0"))
+summary(testOfDif2)
+confint(testOfDif2)
+```
+
+
+
+
+
+
+
+## Log transformations
+
+This data provides a good example of why visualizing the data can be helpful. By looking at histograms and scatter plots, you can see the effects of log transformations. .
+
+### Histograms
+
+Try making histograms of `salary` and `log(salary)`
+
+
+Try making histograms of `sales` and `log(sales)`
+
+
+First, here is a histogram of sales.
+
+
+
+```{r,echo=TRUE}
+library(ggplot2)
+ggplot(mydata,aes(x=sales)) + geom_histogram()
+```
+
+
+
+```{r,echo=TRUE}
+library(ggplot2)
+ggplot(mydata,aes(x=sales)) + geom_histogram(fill="skyblue", color="black")
+```
+
+This distribution is very skewed. Here is the histogram of $log(sales)$
+
+```{r,echo=TRUE}
+mydata$logsales <- log(mydata$sales)
+ggplot(mydata,aes(x=logsales)) + geom_histogram(fill="skyblue", color="black")
+```
+
+
+We notice a similar pattern with salary.
+
+```{r,echo=TRUE}
+ggplot(mydata,aes(x=sales)) + geom_histogram(fill="skyblue", color="black")
+mydata$logsalary <- log(mydata$salary)
+ggplot(mydata,aes(x=logsales)) + geom_histogram(fill="skyblue", color="black")
+```
+
+
+
+
+### Scatter plots
+
+You can also see how log transformations spreads out the data by looking at scatter plots of `salary` or `log(salary)` (y) versus `sales` or `log(sales)` corresponding with the four different models. I colored the points based on age just as an example. That has nothing to do with the log transformations.
+
+
+
+```{r,echo=TRUE}
+##plot(mydata$salary,mydata$sales)
+ggplot(mydata,aes(y=salary,x=sales,col=age))+geom_point()+ scale_colour_gradientn(colours=rainbow(3)) + geom_smooth(method='lm',se=FALSE,col='black')
+```
+
+
+```{r,echo=TRUE}
+##plot(mydata$salary,mydata$sales)
+ggplot(mydata,aes(y=salary,x=logsales,col=age))+geom_point()+ scale_colour_gradientn(colours=rainbow(3)) + geom_smooth(method='lm',se=FALSE,col='black')
+```
+
+
+```{r,echo=TRUE}
+##plot(mydata$salary,mydata$sales)
+ggplot(mydata,aes(y=logsalary,x=sales,col=age))+geom_point()+ scale_colour_gradientn(colours=rainbow(3))+ geom_smooth(method='lm',se=FALSE,col='black')
+```
+
+
+
+```{r,echo=TRUE}
+##plot(mydata$salary,mydata$sales)
+ggplot(mydata,aes(y=logsalary,x=logsales,col=age))+geom_point()+ scale_colour_gradientn(colours=rainbow(3)) + geom_smooth(method='lm',se=FALSE,col='black')
+```
+
+
+
+```{r,echo=TRUE}
+mydata$logsalary <- log(mydata$salary)
+model4 <- lm(salary~sales+mktval+profits+ceoten+age,data=mydata)
+model4loglevel <- lm(logsalary~sales+mktval+profits+ceoten+age,data=mydata)
+model4levellog <- lm(salary~logsales+mktval+profits+ceoten+age,data=mydata)
+model4loglog <- lm(logsalary~logsales+mktval+profits+ceoten+age,data=mydata)
+```
+
+
+```{r,message=FALSE,warning=FALSE,results='asis'}
+stargazer(model4, model4loglevel, model4levellog, model4loglog, type = "html", report=('vc*p'))
+```
+
+
+
+
+```{r,echo=TRUE}
+mydata$logsalary = log(mydata$salary)
+model0 <- lm(salary~sales,data=mydata)
+model0loglevel <- lm(logsalary~sales,data=mydata)
+model0levellog <- lm(salary~logsales,data=mydata)
+model0loglog <- lm(logsalary~logsales,data=mydata)
+```
+
+
+```{r,message=FALSE,warning=FALSE,results='asis'}
+stargazer(model0, model0loglevel, model0levellog, model0loglog, type = "html", report=('vc*p'))
+```
+
+

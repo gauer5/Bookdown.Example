@@ -1,0 +1,8 @@
+book_filename: "BookdownExample"
+output_dir: docs
+delete_merged_file: true
+new_session: yes
+edit: https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/edit/master/%s
+view: https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/blob/master/%s
+history: https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/commits/master/%s
+clean: [docs/*.md]
