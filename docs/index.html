@@ -32,7 +32,7 @@
   
   
 
-
+<link rel="next" href="regression-output-table-examples.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,8 +51,80 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 
 
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -67,7 +139,24 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path=""><a href="#preface"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="regression-output-table-examples.html"><a href="regression-output-table-examples.html"><i class="fa fa-check"></i><b>1</b> Regression Output Table Examples</a><ul>
+<li class="chapter" data-level="1.1" data-path="regression-output-table-examples.html"><a href="regression-output-table-examples.html#summary-statistics"><i class="fa fa-check"></i><b>1.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="1.2" data-path="regression-output-table-examples.html"><a href="regression-output-table-examples.html#model-comparisons"><i class="fa fa-check"></i><b>1.2</b> Model comparisons</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="regression-output-table-examples.html"><a href="regression-output-table-examples.html#adjusted-r-squared"><i class="fa fa-check"></i><b>1.2.1</b> Adjusted R-Squared</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="regression-output-table-examples.html"><a href="regression-output-table-examples.html#test-linear-combinations-of-parameters"><i class="fa fa-check"></i><b>1.3</b> Test Linear Combinations of Parameters</a></li>
+<li class="chapter" data-level="1.4" data-path="regression-output-table-examples.html"><a href="regression-output-table-examples.html#log-transformations"><i class="fa fa-check"></i><b>1.4</b> Log transformations</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="regression-output-table-examples.html"><a href="regression-output-table-examples.html#histograms"><i class="fa fa-check"></i><b>1.4.1</b> Histograms</a></li>
+<li class="chapter" data-level="1.4.2" data-path="regression-output-table-examples.html"><a href="regression-output-table-examples.html#scatter-plots"><i class="fa fa-check"></i><b>1.4.2</b> Scatter plots</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="interactive-choropleth-map.html"><a href="interactive-choropleth-map.html"><i class="fa fa-check"></i><b>2</b> Interactive Choropleth Map</a><ul>
+<li class="chapter" data-level="2.1" data-path="interactive-choropleth-map.html"><a href="interactive-choropleth-map.html#shapefiles"><i class="fa fa-check"></i><b>2.1</b> Shapefiles</a></li>
+<li class="chapter" data-level="2.2" data-path="interactive-choropleth-map.html"><a href="interactive-choropleth-map.html#data"><i class="fa fa-check"></i><b>2.2</b> Data</a></li>
+<li class="chapter" data-level="2.3" data-path="interactive-choropleth-map.html"><a href="interactive-choropleth-map.html#maps"><i class="fa fa-check"></i><b>2.3</b> Maps</a></li>
+<li class="chapter" data-level="2.4" data-path="interactive-choropleth-map.html"><a href="interactive-choropleth-map.html#map-1-quantiles-with-diverging-red-blue-scale"><i class="fa fa-check"></i><b>2.4</b> Map 1: Quantiles with diverging Red-Blue Scale</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -97,7 +186,8 @@
 <p>THese two chapters are two RMD files from Econ 380. The first has examples of displaying regression output and graphs. The second has an interactive map. These files demonstrate two ways of reading in data.</p>
 <p>In the first chapter, data is read in from a CSV file (“ceo.csv”). We will always put data into a folder named “data” that we place in the main project folder. This means we always use <code>data/filename</code> to read in the data, for example, <code>read.csv("data/ceo.csv")</code>. Then we can include “data” in the “.gitignore” file so that Git ignores it. Some of the data files will be really large. This allows us to avoid pushing and pulling the data from GitHub. It makes everything in RStudio much quicker because Git doesn’t have to examine large data files to determine if they’ve changed. And some of the data files might be too large to store in GitHub even if we didn’t mind waiting. Following this convention means you have to manually create the data folder and put the data files in that folder. For the data I give you, I’ll post it in Moodle in a Zip folder.</p>
 <p>In the second RMD file (with the map), data is read in directly from a URL.</p>
-<p>We will always use this basic setup. ALways open RStudio by opening the .RProj folder so that the working directory is set correctly. Always put a “data” folder in the main project folder and open data using “data/filename”, for example, <code>read.csv("data/ceo.csv")</code>.</p>
+<p>We will always use this basic setup. ALways open RStudio by opening the .RProj folder so that the working directory is set correctly. Always put a “data” folder in the main project folder and open data using “data/filename”, for example, <code>read.csv("data/ceo.csv")</code>.
+```</p>
 
 </div>
             </section>
@@ -106,7 +196,7 @@
         </div>
       </div>
 
-
+<a href="regression-output-table-examples.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -137,15 +227,15 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/edit/master/index.Rmd",
+"link": "https://github.com/gauer5/Bookdown.Example/edit/master/index.Rmd",
 "text": "Edit"
 },
 "history": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/commits/master/index.Rmd",
+"link": "https://github.com/gauer5/Bookdown.Example/commits/master/index.Rmd",
 "text": null
 },
 "view": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/blob/master/index.Rmd",
+"link": "https://github.com/gauer5/Bookdown.Example/blob/master/index.Rmd",
 "text": null
 },
 "download": null,
@@ -156,6 +246,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

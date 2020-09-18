@@ -17,5 +17,5 @@ THese two chapters are two RMD files from Econ 380. The first has examples of di
 
 In the second RMD file (with the map), data is read in directly from a URL. 
 
-We will always use this basic setup. ALways open RStudio by opening the .RProj folder so that the working directory is set correctly. Always put a "data" folder in the main project folder and open data using "data/filename", for example, `read.csv("data/ceo.csv")`. 
-
+We will always use this basic setup. ALways open RStudio by opening the .RProj folder so that the working directory is set correctly. Always put a "data" folder in the main project folder and open data using "data/filename", for example, `read.csv("data/ceo.csv")`.
+```
