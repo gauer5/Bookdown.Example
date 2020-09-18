@@ -1,5 +1,6 @@
 # Regression Output Table Examples
 
+Take 4 - went into the docs folder to make changes to the .md rather than the .Rmd
 
 This RMD file was one of the examples you worked through in 380. I'm including it in this example for a few reasons. First, you can see how RMD files that you used before as standalone RMD files to create standalone HTML output can be combined in a book using bookdown. Second, this file loads data using `read.csv("data/ceo.csv")`, serving as an example of how you will store all data in a "data" folder put in the main project folder. Third, this file provides examples of showing regression output side by side. 
 
