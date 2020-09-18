@@ -108,5 +108,5 @@ In `_bookdown.yml`
 
 I will check out your repo with your book to make sure it includes both chapters and shows a commit history based on step 7. 
 
-
+edit by gabe to be pushed
 
